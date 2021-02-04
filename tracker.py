@@ -73,7 +73,7 @@ def main(file_name):
     with open(file_name, newline = '') as bug_csv:
         bugs = csv.reader(bug_csv)
         for bug in bugs:
-            # make sure the bug[2] is aligned --> bug[1] is always 32 chars long and followed by a tab
+            # aligns state and info as long as bug-id is 3 digits
             if len(bug[1]) > 32:
                 bug[1] = bug[1][:32]
             else:
@@ -81,8 +81,13 @@ def main(file_name):
                 filler_count = 32 - len(bug[1])
                 filler = filler * filler_count
                 bug[1] += filler
-            # the same thing should be done for bugs[3] once more states (bug[2]) are added
-
+            if len(bug[2]) > 12:
+                bug[2] = bug[2][:12]
+            else:
+                filler_2 = ' '
+                filler_2_count = 12 - len(bug[2])
+                filler_2 = filler_2 * filler_2_count
+                bug[2] += filler_2
             print("\t".join(bug))
     
     run_tracker = True
